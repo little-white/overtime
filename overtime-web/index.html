@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/init.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="css/button.css">
+</head>
+
+<body>
+    <div id="container">
+        <a class="super-button super-button-primary" href="/profile.html">编辑个人信息</a>
+        <a class="super-button super-button-primary" download href="http://localhost:3000/excel">excel</a>
+        <table class="supershy-table">
+            <thead>
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>加班日期</th>
+                    <th>起始时间</th>
+                    <th>结束时间</th>
+                    <th>休息时间</th>
+                    <th>加班原因</th>
+                    <th>加班时间</th>
+                    <th>加班标准</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script src="js/mustache.min.js"></script>
+    <script id="template" type="x-tmpl-mustache">
+        {{#overtimes}}
+        <tr>
+            <td>{{number}}</td>
+            <td>{{name}}</td>
+            <td>{{department}}</td>
+            <td>{{date}}</td>
+            <td>{{start}}</td>
+            <td>{{end}}</td>
+            <td>{{rest}}</td>
+            <td>{{reason}}</td>
+            <td>{{length}}</td>
+            <td>{{level}}</td>
+        </tr>
+        {{/overtimes}}
+    </script>
+    <script src="js/views/load-table.js"></script>
+    <script>
+    fetch('/api/overtime', {
+        method: "GET",
+        credentials: "same-origin"
+    }).then(function(res) {
+        res.json().then(function(data) {
+            render(document.querySelector('#container tbody'), loadTable({
+                overtimes: data
+            }));
+        });
+    })
+    </script>
+</body>
+
+</html>
